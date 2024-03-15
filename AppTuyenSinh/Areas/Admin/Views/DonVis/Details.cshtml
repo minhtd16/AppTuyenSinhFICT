@@ -1,0 +1,35 @@
+﻿@model AppTuyenSinh.Models.DonVi
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DonVi</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DonVi_Ma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DonVi_Ma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DonVi_Ten)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DonVi_Ten)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DonVi_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

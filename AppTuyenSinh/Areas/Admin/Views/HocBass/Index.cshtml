@@ -1,0 +1,107 @@
+﻿@model IEnumerable<AppTuyenSinh.Models.HocBa>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ThiSinh.ThiSinh_HoTen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_HocKi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_Lop)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemToan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemLi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemHoa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemVan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemAnh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemGDCD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemSinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemSu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_DiemDia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocBa_HocLuc)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThiSinh.ThiSinh_HoTen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_HocKi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_Lop)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemToan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemLi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemHoa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemVan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemAnh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemGDCD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemSinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemSu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_DiemDia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocBa_HocLuc)
+        </td>
+        <td>
+            <a href="@Url.Action("Details", "Details", new { id=item.HocBa_ID, @class = "form-control" }))">ví dụ</a>
+            @Html.ActionLink("Edit", "Edit", new { id=item.HocBa_ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.HocBa_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.HocBa_ID })
+        </td>
+    </tr>
+}
+
+</table>

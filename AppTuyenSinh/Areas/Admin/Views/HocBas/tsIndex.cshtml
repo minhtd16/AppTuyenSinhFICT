@@ -1,0 +1,244 @@
+﻿@model PagedList.IPagedList<AppTuyenSinh.Models.ThiSinh>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "DS nhập điểm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .form-control, .form-select, .btn {
+        border-radius: 2px;
+    }
+
+    th {
+        white-space: nowrap;
+    }
+</style>
+<h4>Danh sách nhập điểm học bạ thí sinh</h4>
+<hr />
+@using (Html.BeginForm("tsIndex", "HocBas", FormMethod.Get))
+{
+    <p>
+        <table class="table-condensed">
+            <tr>
+                <td style="white-space: nowrap;">
+                    Chọn ngành:
+                </td>
+                <td>
+                    @Html.DropDownList("filteriNganh", null, "Tất cả", new { @class = "form-select", @style = "margin-left:5px" })
+                </td>
+                <td>
+                    @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @style = "margin:0 5px 0 5px!important", @placeholder = "Nhập từ khóa...." })
+                </td>
+
+                <td>
+                    <input type="submit" value="Tìm kiếm" class="btn btn-primary" style="margin:0 5px 0 15px!important" />
+                </td>
+                <td>
+                    <a href=@Url.Action("tsIndex", "HocBas") class="btn btn-secondary" style="display: inline-block; white-space:nowrap!important; ">Tải lại</a>
+                </td>
+            </tr>
+        </table>
+    </p>
+
+}
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tên Ngành</th>
+            <th>Họ và tên</th>
+            <th>Điện thoại</th>
+            <th>Tệp học bạ</th>
+            <th>Tệp CCCD</th>
+            <th>Tệp bằng TN </th>
+            <th>Ngày nộp</th>
+            <th style="width:170px!important; text-align:center">Trạng thái nhập điểm</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nganh.Nganh_Ten)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThiSinh_HoTen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThiSinh_DienThoai)
+                </td>
+                <td>
+                    @{
+                        string[] strArr = item.ThiSinh_HoSoDinhKem.Split(new Char[] { '#' });
+                        int i = 0;
+                        foreach (string _item in strArr)
+                        {
+                            i++;
+                            if (_item.Trim().Length > 0)
+                            {
+                                string str_url = "http://nhaphoc.hdu.edu.vn/" + _item;
+                                <a href="@str_url" target="_blank" style="text-decoration:none" title="bấm chuột để xem thông tin">Tệp @i</a> <label>  </label>
+                            }
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.ThiSinh_CCCD != null)
+                        {
+                            string[] strArrCCCD = item.ThiSinh_CCCD.Split(new Char[] { '#' });
+                            int i_cccd = 0;
+                            foreach (string _item in strArrCCCD)
+                            {
+                                i_cccd++;
+                                if (_item.Trim().Length > 0)
+                                {
+                                    string str_url = "http://nhaphoc.hdu.edu.vn/" + _item;
+                                    <a href="@str_url" target="_blank" style="text-decoration:none" title="bấm chuột để xem thông tin">Tệp @i_cccd</a> <label>  </label>
+                                }
+                            }
+                        }
+
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.ThiSinh_BangTN != null)
+                        {
+                            string[] strArrBTN = item.ThiSinh_BangTN.Split(new Char[] { '#' });
+                            int i_bangtn = 0;
+                            foreach (string _item in strArrBTN)
+                            {
+                                i_bangtn++;
+                                if (_item.Trim().Length > 0)
+                                {
+
+                                    string str_url = "http://nhaphoc.hdu.edu.vn/" + _item;
+                                    <a href="@str_url" target="_blank" style="text-decoration:none" title="bấm chuột để xem thông tin">Tệp @i_bangtn</a> <label>  </label>
+                                }
+                            }
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThiSinh_NgayNop)
+                </td>
+                <td style="text-align: center!important">
+
+                    @{
+                        if (item.ThiSinh_Check_NhapDiem > 0)
+                        {
+                            @*<a href="#" class="btn btn-outline-primary" style="width:150px">*@
+                            <a href="@Url.Action("Create","HocBas",new { thiSinh_ID=item.ThiSinh_ID, currentFilter = ViewBag.CurrentFilter, filteriNganh = ViewBag.filteriNganhSort, page = ViewBag.pageCurren })" title="Bấm chuột để chuyển trang nhập điểm" class="btn btn-outline-primary" style="width:170px">
+                                Đã nhập điểm @item.ThiSinh_Check_NhapDiem kỳ 
+                            </a>
+                        }
+                        if (item.ThiSinh_Check_NhapDiem == 0)
+                        {
+                            <a href="@Url.Action("Create","HocBas",new { thiSinh_ID=item.ThiSinh_ID, currentFilter = ViewBag.CurrentFilter, filteriNganh = ViewBag.filteriNganhSort, page = ViewBag.pageCurren })" title="Bấm chuột để chuyển trang nhập điểm" class="btn btn-outline-danger" style="width:170px">
+                                Chưa nhập điểm
+                            </a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / Tổng @Model.PageCount trang/ (Tổng @ViewBag.totalRecod bản ghi)
+@Html.PagedListPager(Model, page => Url.Action("tsIndex", new
+{
+    page,
+    currentFilter = ViewBag.CurrentFilter,
+    filteriNganh = ViewBag.filteriNganhSort
+}))
+Ghi chú: <font color="#0d21ff">CNTT: @ViewBag.totalRecodIT hồ sơ.  </font> / <font color="color: #ff6a00"> SP Tin:  @ViewBag.totalRecodITP hồ sơ.  </font> / <font color="#0d21ff"> Truyền thông ĐPT: @ViewBag.totalRecodMMC hồ sơ.</font>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="height:300px">
+            <div class="modal-header">
+                <h4 class="modal-title fs-5" id="staticBackdropLabel">Thông tin hồ sơ</h4>
+                <button type="button" class="btn-sm btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" value="" id="thisinh_id" />
+                <label for="textarea_note" class="form-label">Ghi chú</label>
+                <textarea class="form-control" id="textarea_note" name="textarea_note" rows="2" style=" max-width: 100%; margin-bottom:4px"
+                          placeholder="Ghi chú lại các thông tin đang còn thiếu của thí sinh khi nộp hồ sơ"></textarea>
+                <input type="radio" name="rdTrangThai" id="rd_HoSoDayDu" class="form-check-input">HS đầy đủ
+                <input type="radio" name="rdTrangThai" id="rd_DaXacNhan" class="form-check-input" style="margin-left: 4px"> Đã xác nhận
+                <input type="radio" name="rdTrangThai" id="rd_HSConThieu" class="form-check-input" style="margin-left:4px"> HS còn thiếu
+                <input type="radio" name="rdTrangThai" id="rd_HSChuKiemTra" class="form-check-input" style="margin-left: 4px"> Chưa kiểm tra
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary" onclick="ThiSinh_UpdateHoSo()">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal -->
+
+
+<script>
+    function GetByID(ID) {
+        $('#rd_HoSoDayDu').attr('checked', false);
+        $('#rd_DaXacNhan').attr('checked', false);
+        $('#rd_HSConThieu').attr('checked', false);
+        $('#rd_HSChuKiemTra').attr('checked', true);
+        $('#thisinh_id').val("");
+        $('#textarea_note').val("");
+        $.ajax({
+            url: "/ThiSinh/GetByID/" + ID,
+            typr: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.thiSinh_TrangThai === 1) { $('#rd_HoSoDayDu').attr('checked', true); }
+                if (result.thiSinh_TrangThai === 2) { $('#rd_DaXacNhan').attr('checked', true); }
+                if (result.thiSinh_TrangThai === 3) { $('#rd_HSConThieu').attr('checked', true); }
+                if (result.thiSinh_TrangThai === 4) { $('#rd_HSChuKiemTra').attr('checked', true); }
+                $('#thisinh_id').val(result.thiSinh_ID);
+                $('#textarea_note').val(result.thiSinh_GhiChu);
+
+                $('#staticBackdrop').modal('show');
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+    function ThiSinh_UpdateHoSo() {
+        let ThiSinh_TrangThai = -1;
+        if ($('#rd_HoSoDayDu').is(':checked')) { ThiSinh_TrangThai = 1 };
+        if ($('#rd_DaXacNhan').is(':checked')) { ThiSinh_TrangThai = 2 };
+        if ($('#rd_HSConThieu').is(':checked')) { ThiSinh_TrangThai = 3 };
+        if ($('#rd_HSChuKiemTra').is(':checked')) { ThiSinh_TrangThai = 4 };
+
+        let ThiSinh_Obj = {
+            Thisinh_ID: $('#thisinh_id').val(),
+            ThiSinh_TrangThai,
+            ThiSinh_GhiChu: $('#textarea_note').val(),
+        };
+        let queryString = window.location.search;
+
+        $.ajax({
+            url: "/ThiSinh/Update_HoSoThiSinh",
+            data: JSON.stringify(ThiSinh_Obj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = "/Admin/ThiSinh/Index" + queryString;
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

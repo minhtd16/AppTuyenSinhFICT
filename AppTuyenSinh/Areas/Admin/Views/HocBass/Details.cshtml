@@ -1,0 +1,123 @@
+﻿@model AppTuyenSinh.Models.HocBa
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HocBa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ThiSinh.ThiSinh_HoTen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThiSinh.ThiSinh_HoTen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_HocKi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_HocKi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_Lop)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_Lop)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemToan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemToan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemLi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemLi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemHoa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemHoa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemVan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemVan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemAnh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemAnh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemGDCD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemGDCD)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemSinh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemSinh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemSu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemSu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_DiemDia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_DiemDia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa_HocLuc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa_HocLuc)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.HocBa_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

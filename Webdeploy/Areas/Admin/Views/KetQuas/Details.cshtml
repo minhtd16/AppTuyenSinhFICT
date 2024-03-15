@@ -1,0 +1,67 @@
+﻿@model AppTuyenSinh.Models.KetQua
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>KetQua</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HocBa.HocBa_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HocBa.HocBa_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KetQua_DiemTH1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KetQua_DiemTH1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KetQua_DiemTH2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KetQua_DiemTH2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KetQua_DiemTH3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KetQua_DiemTH3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KetQua_DiemTH4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KetQua_DiemTH4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TrangThai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrangThai)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.KetQua_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

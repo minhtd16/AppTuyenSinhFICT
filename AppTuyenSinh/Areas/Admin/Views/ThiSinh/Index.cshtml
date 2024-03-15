@@ -1,0 +1,280 @@
+﻿@model PagedList.IPagedList<AppTuyenSinh.Models.ThiSinh>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Theo dõi HS Thí sinh";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .form-control, .form-select, .btn {
+        border-radius: 2px;
+    }
+</style>
+<h4>Danh sách thí sinh nộp hồ sơ</h4>
+<hr />
+@using (Html.BeginForm("Index", "ThiSinh", FormMethod.Get))
+{
+    <p>
+        <table class="table">
+            <tr>
+                <td>
+                    <div class="row g-1">
+                        <div class="col-md-auto  col-sm-12">
+                            Chọn ngành:
+                        </div>
+                        <div class="col-md-auto  col-sm-12">
+                            @Html.DropDownList("filteriNganh", null, "Tất cả", new { @class = "form-select" })
+                        </div>
+                        <div class="col-md-auto  col-sm-12">
+                            @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "Nhập từ khóa...." })
+                        </div>
+                        <div class="col-md-auto col-sm-12">
+                            <input type="submit" value="Tìm kiếm" class="btn btn-primary" />
+                            <a href=@Url.Action("Index", "ThiSinh") class="btn btn-secondary">Tải lại</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </p>
+
+}
+<script>
+    $(document).ready(function () {
+        if (window.innerWidth <= 1400) {
+
+            $('.sp-tieude').show();
+            $('.thead-tieude').hide();
+        }
+        else {
+            $('.sp-tieude').hide();
+            $('.thead-tieude').show();
+          
+        }
+        function reportWindowSize() {
+            if (window.innerWidth <= 1400) {
+
+                $('.sp-tieude').show();
+                $('.thead-tieude').hide();
+            }
+            else {
+                $('.sp-tieude').hide();
+                $('.thead-tieude').show();
+
+            }
+        }
+        window.onresize = reportWindowSize;
+    })
+</script>
+<table class="table table-hover table-striped">
+    <thead class="thead-tieude" style="display:none">
+        <tr>
+            <th>
+                <div class="row g-1">
+                    <div class="col-md-2  col-sm-12">Tên Ngành</div>
+                    <div class="col-md-2  col-sm-12">Họ và tên</div>
+                    <div class="col-md-1  col-sm-12">Điện thoại</div>
+                    <div class="col-md-1  col-sm-12">Ngày nộp</div>
+                    <div class="col-md-2  col-sm-12">Tệp học bạ</div>
+                    <div class="col-md-1  col-sm-12">Tệp CCCD</div>
+                    <div class="col-md-1  col-sm-12">Tệp bằng TN</div>
+                    <div class="col-md-2  col-sm-12">Trạng thái</div>
+                </div>
+            </th>            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="row g-2">
+                        <div class="col-md-2  col-sm-12"><span class="sp-tieude" style="display:none">Tên Ngành: </span>  @Html.DisplayFor(modelItem => item.Nganh.Nganh_Ten)</div>
+                        <div class="col-md-2  col-sm-12"><span class="sp-tieude" style="display:none">Họ và tên: </span> @Html.DisplayFor(modelItem => item.ThiSinh_HoTen)</div>
+                        <div class="col-md-1  col-sm-12"><span class="sp-tieude" style="display:none">Điện thoại: </span>  @Html.DisplayFor(modelItem => item.ThiSinh_DienThoai)</div>
+                        <div class="col-md-1  col-sm-12"><span class="sp-tieude" style="display:none">Ngày nộp: </span>  <span> @DateTime.Parse(item.ThiSinh_NgayNop).ToString("dd/MM/yyyy") </span></div>
+
+                        <div class="col-md-2  col-sm-12">
+                            <span class="sp-tieude" style="display:none">Tệp học bạ: </span>
+                            @{
+                                string[] strArr = item.ThiSinh_HoSoDinhKem.Split(new Char[] { '#' });
+                                int i = 0;
+                                foreach (string _item in strArr)
+                                {
+                                    i++;
+                                    if (_item.Trim().Length > 0)
+                                    {                                       
+                                        string str_url = "https://tuyensinhcntt.hdu.edu.vn/" + _item;
+                                        <a href="@str_url" target="_blank" style="text-decoration:none" title="bấm chuột để xem thông tin" class="btn btn-light btn-sm">Tệp @i</a> <label>  </label>
+                                    }
+                                }
+                            }
+                        </div>
+                        <div class="col-md-1  col-sm-12">
+                            <span class="sp-tieude" style="display:none">Tệp CCCD: </span>
+                            @{
+                                if (item.ThiSinh_CCCD != null)
+                                {
+                                    string[] strArrCCCD = item.ThiSinh_CCCD.Split(new Char[] { '#' });
+                                    int i_cccd = 0;
+                                    foreach (string _item in strArrCCCD)
+                                    {
+                                        i_cccd++;
+                                        if (_item.Trim().Length > 0)
+                                        {
+                                            string str_url = "https://tuyensinhcntt.hdu.edu.vn/" + _item;
+                                            <a href="@str_url" target="_blank" style="text-decoration:none" title="bấm chuột để xem thông tin" class="btn btn-light btn-sm">Tệp @i_cccd</a>
+                                        }
+                                    }
+                                }
+
+                            }
+                        </div>
+                        <div class="col-md-1  col-sm-12">
+                            <span class="sp-tieude" style="display:none">Tệp bằng TN: </span>
+                            @{
+                                if (item.ThiSinh_BangTN != null)
+                                {
+                                    string[] strArrBTN = item.ThiSinh_BangTN.Split(new Char[] { '#' });
+                                    int i_bangtn = 0;
+                                    foreach (string _item in strArrBTN)
+                                    {
+                                        i_bangtn++;
+                                        if (_item.Trim().Length > 0)
+                                        {
+                                            string str_url = "https://tuyensinhcntt.hdu.edu.vn/" + _item;
+                                            <a href="@str_url" target="_blank" style="text-decoration:none" title="bấm chuột để xem thông tin" class="btn btn-light btn-sm">Tệp @i_bangtn</a>                                         
+                                        }
+                                    }
+                                }
+                            }
+                        </div>
+                        <div class="col-md-2  col-sm-12">
+                            <span class="sp-tieude" style="display:none">Trạng thái: </span>
+                            @{
+                                if (item.ThiSinh_TrangThai == 1)
+                                {
+                                    <a href="#" style="text-decoration:none; color: #ff6a00" onclick="return GetByID(@item.ThiSinh_ID)" title="@item.ThiSinh_GhiChu">
+                                        <input type="checkbox" name="cbtt_dd" id="cbtt_dd" class="form-check-input" checked> HS đầy đủ
+                                    </a>
+                                }
+                                if (item.ThiSinh_TrangThai == 2)
+                                {
+                                    <a href="#" style="text-decoration: none; color: #032eff" onclick="return GetByID(@item.ThiSinh_ID)" title="@item.ThiSinh_GhiChu">
+                                        <input type="checkbox" name="cbtt_dxn" id="cbtt_dxn" class="form-check-input" checked> Đã xác nhận
+                                    </a>
+                                }
+                                if (item.ThiSinh_TrangThai == 3)
+                                {
+                                    <a href="#" style="text-decoration: none; color: red" onclick="return GetByID(@item.ThiSinh_ID)" title="@item.ThiSinh_GhiChu">
+                                        <input type="checkbox" name="cbtt_ct" id="cbtt_ct" class="form-check-input"> HS còn thiếu
+
+                                    </a>
+                                }
+                                if (item.ThiSinh_TrangThai == 4)
+                                {
+                                    <a href="#" style="text-decoration: none; color: black" onclick="return GetByID(@item.ThiSinh_ID)" title="@item.ThiSinh_GhiChu">
+                                        <input type="checkbox" name="cbtt_ckt" id="cbtt_ckt" class="form-check-input"> Chưa kiểm tra
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>                   
+                </td>                
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / Tổng @Model.PageCount trang/ (Tổng @ViewBag.totalRecod bản ghi)
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    currentFilter = ViewBag.CurrentFilter,
+    filteriNganh = ViewBag.filteriNganhSort
+}))
+Ghi chú: <font color="#0d21ff">CNTT: @ViewBag.totalRecodIT hồ sơ;  </font> / <font color="color: #ff6a00"> SP Tin:  @ViewBag.totalRecodITP hồ sơ;  </font> / <font color="#0d21ff"> Truyền thông ĐPT: @ViewBag.totalRecodMMC hồ sơ.</font>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="height:300px">
+            <div class="modal-header">
+                <h4 class="modal-title fs-5" id="staticBackdropLabel">Thông tin hồ sơ</h4>
+                <button type="button" class="btn-sm btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" value="" id="thisinh_id" />
+                <label for="textarea_note" class="form-label">Ghi chú</label>
+                <textarea class="form-control" id="textarea_note" name="textarea_note" rows="2" style=" max-width: 100%; margin-bottom:4px"
+                          placeholder="Ghi chú lại các thông tin đang còn thiếu của thí sinh khi nộp hồ sơ"></textarea>
+                <input type="radio" name="rdTrangThai" id="rd_HoSoDayDu" class="form-check-input">HS đầy đủ
+                <input type="radio" name="rdTrangThai" id="rd_DaXacNhan" class="form-check-input" style="margin-left: 4px"> Đã xác nhận
+                <input type="radio" name="rdTrangThai" id="rd_HSConThieu" class="form-check-input" style="margin-left:4px"> HS còn thiếu
+                <input type="radio" name="rdTrangThai" id="rd_HSChuKiemTra" class="form-check-input" style="margin-left: 4px"> Chưa kiểm tra
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary" onclick="ThiSinh_UpdateHoSo()">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal -->
+
+<script>
+    function GetByID(ID) {
+        $('#rd_HoSoDayDu').attr('checked', false);
+        $('#rd_DaXacNhan').attr('checked', false);
+        $('#rd_HSConThieu').attr('checked', false);
+        $('#rd_HSChuKiemTra').attr('checked', true);
+        $('#thisinh_id').val("");
+        $('#textarea_note').val("");
+        $.ajax({
+            url: "/ThiSinh/GetByID/" + ID,
+            typr: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.thiSinh_TrangThai === 1) { $('#rd_HoSoDayDu').attr('checked', true); }
+                if (result.thiSinh_TrangThai === 2) { $('#rd_DaXacNhan').attr('checked', true); }
+                if (result.thiSinh_TrangThai === 3) { $('#rd_HSConThieu').attr('checked', true); }
+                if (result.thiSinh_TrangThai === 4) { $('#rd_HSChuKiemTra').attr('checked', true); }
+                $('#thisinh_id').val(result.thiSinh_ID);
+                $('#textarea_note').val(result.thiSinh_GhiChu);
+
+                $('#staticBackdrop').modal('show');
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+    function ThiSinh_UpdateHoSo() {
+        let ThiSinh_TrangThai = -1;
+        if ($('#rd_HoSoDayDu').is(':checked')) { ThiSinh_TrangThai = 1 };
+        if ($('#rd_DaXacNhan').is(':checked')) { ThiSinh_TrangThai = 2 };
+        if ($('#rd_HSConThieu').is(':checked')) { ThiSinh_TrangThai = 3 };
+        if ($('#rd_HSChuKiemTra').is(':checked')) { ThiSinh_TrangThai = 4 };
+
+        let ThiSinh_Obj = {
+            Thisinh_ID: $('#thisinh_id').val(),
+            ThiSinh_TrangThai,
+            ThiSinh_GhiChu: $('#textarea_note').val(),
+        };
+        let queryString = window.location.search;
+
+        $.ajax({
+            url: "/ThiSinh/Update_HoSoThiSinh",
+            data: JSON.stringify(ThiSinh_Obj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = "/Admin/ThiSinh/Index" + queryString;
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<AppTuyenSinh.Models.DonVi>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DonVi_Ma)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DonVi_Ten)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DonVi_Ma)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DonVi_Ten)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DonVi_ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.DonVi_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DonVi_ID })
+        </td>
+    </tr>
+}
+
+</table>

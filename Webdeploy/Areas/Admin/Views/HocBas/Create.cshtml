@@ -1,0 +1,348 @@
+﻿@model AppTuyenSinh.Models.HocBa
+
+@{
+    ViewBag.Title = "Nhập điểm TS";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script>
+    $(document).ready(function () {      
+        if ($('#list_diemdanhap').val() != "Chưa có dữ liệu") {
+            let json_arr = JSON.parse($('#list_diemdanhap').val());
+            HienThiDiemDaNhap(json_arr);
+        }
+        else {
+            let output_null = ' <tr><td colspan="11">Chưa có dữ liệu nhập</td></tr>'
+            document.getElementById('tdbody_diem').innerHTML = output_null;
+        }
+    });
+    function HienThiDiemDaNhap(hb_arr) {
+        /* console.log(hb_arr);*/
+        let _output = "";
+        for (let i = 0; i < hb_arr.length; i++) {
+            // console.log(hb_arr[i].HocBa_Lop);
+            let _lop_hocky = "", _hoc_luc;
+            if (hb_arr[i].HocBa_Lop == 11 && hb_arr[i].HocBa_HocKi == 1) { _lop_hocky = "HK 1/Lớp 11" }
+            if (hb_arr[i].HocBa_Lop == 11 && hb_arr[i].HocBa_HocKi == 2) { _lop_hocky = "HK 2/Lớp 11" }
+            if (hb_arr[i].HocBa_Lop == 12 && hb_arr[i].HocBa_HocKi == 1) { _lop_hocky = "HK 1/Lớp 12" }
+
+            if (hb_arr[i].HocBa_HocLuc == 1) { _hoc_luc = "TB"; }
+            if (hb_arr[i].HocBa_HocLuc == 2) { _hoc_luc = "Khá"; }
+            if (hb_arr[i].HocBa_HocLuc == 3) { _hoc_luc = "Giỏi"; }
+
+            _output += '<tr>' +
+                '<td>' + _lop_hocky + '</td>' +
+                '<td>' + _hoc_luc + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemToan + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemLi + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemHoa + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemSinh + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemVan + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemSu + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemDia + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemGDCD + '</td>' +
+                '<td>' + hb_arr[i].HocBa_DiemAnh + '</td>' +
+                '</tr>'
+        }
+        document.getElementById('tdbody_diem').innerHTML = _output;
+
+    }
+    function NhapDiem() {
+        let thiSinh_ID = $('#iDThiSinh').val();
+        let selectLopHocKy = $('#select_lop_hocky').find(":selected").val();
+
+        // alert(selectLopHocKy + "/" + selectHocLuc);
+        // return;
+        let hocBa_Lop = "", hocBa_HocKi = "";
+        if (selectLopHocKy == 1) { hocBa_Lop = 11; hocBa_HocKi = 1; }
+        if (selectLopHocKy == 2) { hocBa_Lop = 11; hocBa_HocKi = 2; }
+        if (selectLopHocKy == 3) { hocBa_Lop = 12; hocBa_HocKi = 1; }
+
+        let hocBa_HocLuc = $('#select_hoc_luc').find(":selected").val();
+
+        let hocBa_DiemToan = $('#hocba_diemToan').val();
+        let hocBa_DiemLi = $('#hocba_diemLy').val();
+        let hocBa_DiemHoa = $('#hocba_diemHoa').val();
+        let hocBa_DiemSinh = $('#hocba_diemSinh').val();
+        let hocBa_DiemVan = $('#hocba_diemVan').val();
+        let hocBa_DiemSu = $('#hocba_diemSu').val();
+        let hocBa_DiemDia = $('#hocba_diemDia').val();
+        let hocBa_DiemGDCD = $('#hocba_diemGDCD').val();
+        let hocBa_DiemAnh = $('#hocba_diemAnh').val();
+
+        let HocBa_Obj = {
+            ThiSinh_ID: thiSinh_ID,
+            HocBa_Lop: hocBa_Lop,
+            HocBa_HocKi: hocBa_HocKi,
+            HocBa_HocLuc: hocBa_HocLuc,
+            HocBa_DiemToan: hocBa_DiemToan, HocBa_DiemLi: hocBa_DiemLi, HocBa_DiemHoa: hocBa_DiemHoa, HocBa_DiemSinh: hocBa_DiemSinh,
+            HocBa_DiemVan: hocBa_DiemVan, HocBa_DiemSu: hocBa_DiemSu, HocBa_DiemDia: hocBa_DiemDia, HocBa_DiemGDCD: hocBa_DiemGDCD,
+            HocBa_DiemAnh: hocBa_DiemAnh,
+        };
+        //console.log(HocBa_Obj)
+        //return;
+        $.ajax({
+            url: "/HocBas/Update_DiemHocBa",
+            data: JSON.stringify(HocBa_Obj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                HienThiDiemDaNhap(result)
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function QuayLaiTrangTruoc() {
+        let str = "?currentFilter=" + $('#currentFilter_bak').val() +
+            "&filteriNganh=" + $('#filteriNganhSort_bak').val() + "&page=" + $('#pageCurren_bak').val();
+        window.location.href = "/Admin/HocBas/tsIndex" + str;
+    }
+</script>
+<style>
+    .label_mon {
+        width: 70px !important;
+    }
+
+    .row_margin {
+        margin-top: 10px
+    }
+
+    input, .span_mon {
+        border-radius: 0px !important;
+    }
+
+    .create-hover-button {
+        padding: 6.5px 18px;
+        border-radius: 0 !important;
+        background-color: #ff6a00;
+        border: none;
+        color: #fff;
+        font-size: 17px;
+    }
+
+        .create-hover-button:hover {
+            background-color: #084f11;
+            color: #fff;
+        }
+</style>
+<main>
+    <div class="row">
+        <div class="col-xxl-8">
+            <h5>Hồ sơ học bạ thí sinh</h5>
+            <hr />
+            <div class="row">
+                <div class="col-12">
+                    @{
+                        string str_files_part = ViewBag.ThiSinh_HoSoThiSinh;
+
+                        string[] strArr = str_files_part.Split(new Char[] { '#' });
+
+                        int _index = 0, jndex = 0;
+                        <ul class="nav nav-tabs" role="tablist">
+                            @{
+                                foreach (string _item in strArr)
+                                {
+                                    _index++;
+                                    if (_item.Trim().Length > 0)
+                                    {
+                                        string str_href = "#file" + _index;
+                                        if (_index == 1)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-bs-toggle="tab" href="@str_href">Tệp @_index</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-bs-toggle="tab" href="@str_href">Tệp @_index</a>
+                                            </li>
+                                        }
+
+                                    }
+                                }
+                            }
+                        </ul>
+                        <div class="tab-content">
+                            @{
+                                foreach (string _item in strArr)
+                                {
+                                    jndex++;
+                                    if (_item.Trim().Length > 0)
+                                    {
+                                        string str_href_id = "file" + jndex;
+                                        string str_url = "/" + _item;
+                                        if (jndex == 1)
+                                        {
+                                            <div id="@str_href_id" class="row tab-pane active">
+
+                                                <iframe class="embed-responsive-item" src="@str_url" name="iframeShow" style="height: 680px"></iframe>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div id="@str_href_id" class="row tab-pane fade">
+
+                                                <iframe class="embed-responsive-item" src="@str_url" name="iframeShow" style="height: 680px"></iframe>
+                                            </div>
+                                        }
+
+                                    }
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xxl-4">   
+                <div class="form-horizontal">
+                    <h5>Nhập điểm từ học bạ</h5>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="input-group ">
+                        <span class="input-group-text span_mon" style="width:120px">Họ và tên</span>
+                        @Html.DropDownList("ThiSinh_ID", null, htmlAttributes: new { @class = "form-control span_mon", @style = "max-width:100%" })
+                    </div>
+                    <div class="row row_margin">
+                        <div class="col-md-offset-2 col-md-10">
+                            <span class="input-text">Lớp, học kỳ, học lực</span>
+                        </div>
+                    </div>
+                    <div class="row row_margin">
+                        <div class="col-8">
+                            <div class="input-group ">
+                                <span class="input-group-text span_mon" style="width:110px">Lớp - học kỳ</span>
+                                <select name="select_lop_hocky" id="select_lop_hocky" class="form-select span_mon">
+                                    <option value="1">Lớp 11 - học kỳ 1</option>
+                                    <option value="2">Lớp 11 - học kỳ 2</option>
+                                    <option value="3">Lớp 12 - học kỳ 1</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">Học lực</span>
+                                <select name="select_hoc_luc" id="select_hoc_luc" class="form-select span_mon">
+                                    <option value="1">T.Bình</option>
+                                    <option value="2">Khá</option>
+                                    <option value="3">Giỏi</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row_margin">
+                        <span class="input-text">Điểm các môn học</span>
+                    </div>
+                    <div class="row row_margin">
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">Toán</span>
+                                <input type="text" class="form-control" id="hocba_diemToan" name="hocba_diemToan">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">Lý</span>
+                                <input type="text" class="form-control" id="hocba_diemLy" name="hocba_diemLy">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">Hóa</span>
+                                <input type="text" class="form-control" id="hocba_diemHoa" name="hocba_diemHoa">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row row_margin">
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">Sinh</span>
+                                <input type="text" class="form-control" id="hocba_diemSinh" name="hocba_diemSinh">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">Văn</span>
+                                <input type="text" class="form-control" id="hocba_diemVan" name="hocba_diemVan">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">Sử</span>
+                                <input type="text" class="form-control" id="hocba_diemSu" name="hocba_diemSu">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row_margin">
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">Địa</span>
+                                <input type="text" class="form-control" id="hocba_diemDia" name="hocba_diemDia">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">GDCD</span>
+                                <input type="text" class="form-control" id="hocba_diemGDCD" name="hocba_diemGDCD">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <span class="input-group-text label_mon span_mon">T.Anh</span>
+                                <input type="text" class="form-control" id="hocba_diemAnh" name="hocba_diemAnh">
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row_margin">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="Đồng ý" class="btn create-hover-button" onclick="NhapDiem()" />
+                            <a href="#" class="btn btn-secondary span_mon" onclick="QuayLaiTrangTruoc()">Trở lại trang DS thí sinh</a>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row row_margin">
+                        <h6>Danh sách điểm các học kỳ đã nhập</h6>
+                        <div class="col-12">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>H.kỳ/Lớp</th>
+                                        <th>H.Lực</th>
+                                        <th>Toán</th>
+                                        <th>Lý</th>
+                                        <th>Hóa</th>
+                                        <th>Sinh</th>
+                                        <th>Văn</th>
+                                        <th>Sử</th>
+                                        <th>Địa</th>
+                                        <th>T.Anh</th>
+                                        <th>GDCD</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tdbody_diem">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</main>
+<!--Các tham số lưu để truyền dữ liệu-->
+<input type="hidden" value="@ViewBag.currentFilter" id="currentFilter_bak" name="currentFilter_bak" />
+<input type="hidden" value="@ViewBag.filteriNganhSort" id="filteriNganhSort_bak" name="filteriNganhSort_bak" />
+<input type="hidden" value="@ViewBag.pageCurren" id="pageCurren_bak" name="pageCurren_bak" />
+<input type="hidden" id="iDThiSinh" name="iDThiSinh" value="@ViewBag.iDCurren">
+<input type="hidden" id="list_diemdanhap" name="list_diemdanhap" value="@ViewBag.List_DiemDaNhap" />
+<!--Hết phần Các tham số lưu để truyền dữ liệu-->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

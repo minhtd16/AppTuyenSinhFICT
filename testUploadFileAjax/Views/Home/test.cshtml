@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "test";
+}
+
+<h2>test</h2>
+
+
+<style>
+    table {
+        margin: auto;
+    }
+
+    table, th, tr, td {
+        border: 1px solid black;
+    }
+</style>
+<h1 style="color:green;">
+    GeeksforGeeks
+</h1>
+
+<h3>
+    Remove Table row from a Table
+</h3>
+
+<table>
+    <tr>
+        <th>S.No</th>
+        <th>Title</th>
+        <th>Geek_id</th>
+    </tr>
+    <tr id="row1">
+        <td>Geek_1</td>
+        <td>GeekForGeeks</td>
+        <th>Geek_id_1</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_3</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_4</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_5</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_6</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    <tr>
+        <td>Geek_2</td>
+        <td>GeeksForGeeks</td>
+        <th>Geek_id_2</th>
+    </tr>
+
+    
+</table>
+<br>
+
+<button onclick="Geeks()">
+    Click Here
+</button>
+
+<script>
+        function Geeks() {
+            document.getElementsByTagName("tr")[2].remove();
+        }
+</script>

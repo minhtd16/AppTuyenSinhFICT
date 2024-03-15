@@ -1,0 +1,73 @@
+﻿@model AppTuyenSinh.Models.Nganh
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Nganh</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DonVi.DonVi_Ma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DonVi.DonVi_Ma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nganh_Ma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nganh_Ma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nganh_Ten)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nganh_Ten)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nganh_Ma_Ten)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nganh_Ma_Ten)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nganh_ToHopXT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nganh_ToHopXT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nganh_SP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nganh_SP)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
